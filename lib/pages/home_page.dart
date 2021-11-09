@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemCount: snapshot.data?.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(snapshot.data.toString()),
+                      title: Text(snapshot.data?[index]),
                     );
                   });
             }));
