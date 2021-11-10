@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:httpandjsone/model/model.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -12,6 +13,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var newTodo = TodoModel(title: "Santa", userId: '8232');
+
   void getData() async {
     var url = Uri.parse("https://jsonplaceholder.typicode.com/todos");
     var res = await http.get(url);
@@ -20,12 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void postData() async {
     var url = Uri.parse("https://jsonplaceholder.typicode.com/todos");
-    var res = await http.post(url, body: {
-      "userId": "8232",
-      "id": "8232",
-      "title": "santa",
-      "completed": "true"
-    });
+    var res = await http.post(url, body: newTodo.toJson());
     log(res.body.toString());
   }
 
@@ -40,6 +38,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("List Todos"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+            onPressed: () {
+              Map<String, dynamic> map = newTodo.toJson();
+              log(map.toString());
+            },
+            child: const Text(" CLICK")),
       ),
     );
   }
