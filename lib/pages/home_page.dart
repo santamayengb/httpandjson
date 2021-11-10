@@ -13,7 +13,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var newTodo = TodoModel(title: "Santa", userId: '8232');
+  var newTodo = TodoModel(title: "Test2", userId: '8232');
 
   void getData() async {
     var url = Uri.parse("https://jsonplaceholder.typicode.com/todos");
@@ -29,7 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    postData();
+    getData();
     super.initState();
   }
 
@@ -42,8 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: ElevatedButton(
             onPressed: () {
-              Map<String, dynamic> map = newTodo.toJson();
-              log(map.toString());
+              postData();
             },
             child: const Text(" CLICK")),
       ),
