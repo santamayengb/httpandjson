@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -11,31 +11,36 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-Future<List> getData() async {
-  var url = Uri.parse("https://jsonplaceholder.typicode.com/todos/1");
-  var res = await http.get(url);
-  return jsonDecode(res.body);
-  // var data = jsonDecode(res.body);
-  // log(data[100]["title"].toString());
-}
-
 class _MyHomePageState extends State<MyHomePage> {
+  void getData() async {
+    var url = Uri.parse("https://jsonplaceholder.typicode.com/todos");
+    var res = await http.get(url);
+    log(res.statusCode.toString());
+  }
+
+  void postData() async {
+    var url = Uri.parse("https://jsonplaceholder.typicode.com/todos");
+    var res = await http.post(url, body: {
+      "userId": "8232",
+      "id": "8232",
+      "title": "santa",
+      "completed": "true"
+    });
+    log(res.body.toString());
+  }
+
+  @override
+  void initState() {
+    postData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("List"),
-        ),
-        body: FutureBuilder<List>(
-            future: getData(),
-            builder: (context, snapshot) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(snapshot.data?[index]),
-                    );
-                  });
-            }));
+      appBar: AppBar(
+        title: const Text("List Todos"),
+      ),
+    );
   }
 }

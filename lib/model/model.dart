@@ -1,8 +1,15 @@
-import 'package:json_annotation/json_annotation.dart';
+class TodoList {
+  final List<TodoModel> todolist;
 
-part 'model.g.dart';
+  TodoList(this.todolist);
 
-@JsonSerializable()
+  factory TodoList.fromJson(List<dynamic> parsedJson) {
+    List<TodoModel> todolist;
+    todolist = parsedJson.map((e) => TodoModel.fromJson(e)).toList();
+    return TodoList(todolist);
+  }
+}
+
 class TodoModel {
   String userId;
   String title;
@@ -12,7 +19,5 @@ class TodoModel {
   });
 
   factory TodoModel.fromJson(Map<String, dynamic> json) =>
-      _$TodoModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TodoModelToJson(this);
+      TodoModel(userId: json["userId"], title: json["title"]);
 }
