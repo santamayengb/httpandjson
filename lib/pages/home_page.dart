@@ -13,6 +13,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String title = "Empty";
   var newTodo = TodoModel(title: "Test2", userId: '8232');
 
   void getData() async {
@@ -40,11 +41,24 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("List Todos"),
       ),
       body: Center(
-        child: ElevatedButton(
-            onPressed: () {
-              postData();
-            },
-            child: const Text(" CLICK")),
+        child: Padding(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(title),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: () => getData(), child: const Text("Get")),
+                  ElevatedButton(
+                      onPressed: () => postData(), child: const Text("Post")),
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
