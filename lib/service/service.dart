@@ -1,14 +1,22 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-import '../model/model.dart';
+import 'package:httpandjsone/model/model.dart';
 
 class Service {
   String url = 'https://jsonplaceholder.typicode.com/todos';
 
-  Future<TodoModel> getTodo() async {
+  Future<Todo> getTodo() async {
     final res = await http.get(Uri.parse(url));
 
-    return TodoModel.fromJson(jsonDecode(res.body));
+    if (res.statusCode == 200) {
+      log("Status Okay");
+
+      // return Todo.fromJson(jsonDecode(res.body));
+      return Todo.fromJson(json.decode(res.body));
+    } else {
+      throw Exception('Failed to load album');
+    }
   }
 }

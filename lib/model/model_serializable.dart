@@ -1,19 +1,41 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'dart:convert';
 
-part 'model_serializable.g.dart';
+List<Todo> todoFromJson(String str) {
+  return List<Todo>.from(json.decode(str).map((x) {
+    return Todo.fromJson(x);
+  }));
+}
 
-@JsonSerializable()
-class TodoModel {
-  int userId;
-  String title;
+String todoToJson(List<Todo> data) {
+  return json.encode(List<dynamic>.from(data.map((x) {
+    return x.toJson();
+  })));
+}
 
-  TodoModel({
+class Todo {
+  Todo({
     required this.userId,
+    required this.id,
     required this.title,
+    required this.completed,
   });
 
-  factory TodoModel.fromJson(Map<String, dynamic> json) =>
-      _$TodoModelFromJson(json);
+  final int userId;
+  final int id;
+  final String title;
+  final bool completed;
 
-  Map<String, dynamic> toJson() => _$TodoModelToJson(this);
+  factory Todo.fromJson(Map<String, dynamic> json) => Todo(
+        userId: json["userId"],
+        id: json["id"],
+        title: json["title"],
+        completed: json["completed"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "userId": userId,
+        "id": id,
+        "title": title,
+        "completed": completed,
+      };
 }

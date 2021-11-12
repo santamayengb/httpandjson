@@ -1,5 +1,3 @@
-import 'package:httpandjsone/model/model.dart';
-
 import '../service/service.dart';
 
 import 'package:flutter/material.dart';
@@ -12,12 +10,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Future<TodoModel> futuretodos;
-
   @override
   void initState() {
     super.initState();
-    futuretodos = Service().getTodo();
+    Service().getTodo();
   }
 
   @override
@@ -26,6 +22,17 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // ignore: prefer_const_constructors
         title: Text(""),
+      ),
+      body: FutureBuilder(
+        future: Service().getTodo(),
+        builder: (context, snaphot) {
+          if (snaphot.hasData) {
+            return const Text("data");
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }
